@@ -1,0 +1,297 @@
+/* -------------------------------------------------------------
+   Design Tokens & Modern Theme Variables
+------------------------------------------------------------- */
+:root {
+  --bg-gradient: linear-gradient(135deg, #eef2f7 0%, #dbe4ee 100%);
+  --calc-bg: #ffffff;
+  --calc-shadow: 0 20px 45px rgba(0, 0, 0, 0.08), 0 4px 12px rgba(0, 0, 0, 0.04);
+  --border-subtle: rgba(226, 232, 240, 0.8);
+
+  /* Display Colors */
+  --display-bg: #f8fafc;
+  --text-main: #0f172a;
+  --text-muted: #64748b;
+  --text-error: #ef4444;
+
+  /* Button Colors - Numbers */
+  --btn-num-bg: #f1f5f9;
+  --btn-num-text: #1e293b;
+  --btn-num-hover: #e2e8f0;
+  --btn-num-active: #cbd5e1;
+
+  /* Button Colors - Actions (AC, Del, %, +/-) */
+  --btn-act-bg: #e2e8f0;
+  --btn-act-text: #334155;
+  --btn-act-hover: #cbd5e1;
+  --btn-act-active: #94a3b8;
+
+  /* Button Colors - Operators */
+  --btn-op-bg: #eff6ff;
+  --btn-op-text: #2563eb;
+  --btn-op-hover: #dbeafe;
+  --btn-op-active: #bfdbfe;
+  --btn-op-selected: #2563eb;
+  --btn-op-selected-text: #ffffff;
+
+  /* Button Colors - Equals */
+  --btn-eq-bg: #2563eb;
+  --btn-eq-text: #ffffff;
+  --btn-eq-hover: #1d4ed8;
+  --btn-eq-active: #1e40af;
+  --btn-eq-shadow: 0 4px 14px rgba(37, 99, 235, 0.35);
+
+  --focus-ring: 0 0 0 3px rgba(59, 130, 246, 0.45);
+  --radius-calc: 28px;
+  --radius-btn: 18px;
+}
+
+/* -------------------------------------------------------------
+   Global Resets & Base Styles
+------------------------------------------------------------- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-gradient);
+  padding: 1.25rem;
+  color: var(--text-main);
+}
+
+.calculator-wrapper {
+  width: 100%;
+  max-width: 380px;
+  display: flex;
+  justify-content: center;
+}
+
+/* -------------------------------------------------------------
+   Calculator Container
+------------------------------------------------------------- */
+.calculator {
+  width: 100%;
+  background-color: var(--calc-bg);
+  border-radius: var(--radius-calc);
+  box-shadow: var(--calc-shadow);
+  padding: 1.5rem;
+  border: 1px solid var(--border-subtle);
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* -------------------------------------------------------------
+   Display Section
+------------------------------------------------------------- */
+.display-container {
+  background: var(--display-bg);
+  border-radius: 20px;
+  padding: 1.25rem 1.25rem 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-end;
+  min-height: 110px;
+  border: 1px solid rgba(226, 232, 240, 0.6);
+  word-break: break-all;
+  overflow: hidden;
+}
+
+.previous-operand {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  min-height: 1.4rem;
+  line-height: 1.4;
+  letter-spacing: 0.2px;
+  text-align: right;
+  transition: color 0.15s ease;
+}
+
+.current-operand {
+  font-size: 2.5rem;
+  font-weight: 600;
+  color: var(--text-main);
+  line-height: 1.2;
+  text-align: right;
+  letter-spacing: -0.5px;
+  transition: font-size 0.15s ease;
+  white-space: nowrap;
+}
+
+.current-operand.shrink {
+  font-size: 1.85rem;
+}
+
+.current-operand.error {
+  color: var(--text-error);
+  font-size: 1.6rem;
+}
+
+/* -------------------------------------------------------------
+   Keypad Grid Layout
+------------------------------------------------------------- */
+.keypad-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+/* -------------------------------------------------------------
+   Button Base Styles & States
+------------------------------------------------------------- */
+.btn {
+  font-family: inherit;
+  font-size: 1.25rem;
+  font-weight: 500;
+  border: none;
+  border-radius: var(--radius-btn);
+  height: 64px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  user-select: none;
+  outline: none;
+  transition: background-color 0.15s ease, transform 0.1s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.15s ease;
+  position: relative;
+}
+
+.btn:focus-visible {
+  box-shadow: var(--focus-ring);
+  z-index: 2;
+}
+
+.btn:active,
+.btn.active-key {
+  transform: scale(0.94);
+}
+
+/* -------------------------------------------------------------
+   Button Color Variants
+------------------------------------------------------------- */
+/* Numbers */
+.btn-number {
+  background-color: var(--btn-num-bg);
+  color: var(--btn-num-text);
+}
+
+.btn-number:hover {
+  background-color: var(--btn-num-hover);
+}
+
+.btn-number:active,
+.btn-number.active-key {
+  background-color: var(--btn-num-active);
+}
+
+/* Actions (Clear, Delete, Percent, Toggle) */
+.btn-action {
+  background-color: var(--btn-act-bg);
+  color: var(--btn-act-text);
+  font-weight: 600;
+}
+
+.btn-action:hover {
+  background-color: var(--btn-act-hover);
+}
+
+.btn-action:active,
+.btn-action.active-key {
+  background-color: var(--btn-act-active);
+}
+
+/* Operator Buttons (+, -, ×, ÷) */
+.btn-operator {
+  background-color: var(--btn-op-bg);
+  color: var(--btn-op-text);
+  font-size: 1.45rem;
+  font-weight: 600;
+}
+
+.btn-operator:hover {
+  background-color: var(--btn-op-hover);
+}
+
+.btn-operator:active,
+.btn-operator.active-key {
+  background-color: var(--btn-op-active);
+}
+
+/* Highlighted active operator */
+.btn-operator.is-active-op {
+  background-color: var(--btn-op-selected);
+  color: var(--btn-op-selected-text);
+}
+
+/* Equals Button (=) */
+.btn-equals {
+  background-color: var(--btn-eq-bg);
+  color: var(--btn-eq-text);
+  font-size: 1.45rem;
+  font-weight: 600;
+  box-shadow: var(--btn-eq-shadow);
+}
+
+.btn-equals:hover {
+  background-color: var(--btn-eq-hover);
+}
+
+.btn-equals:active,
+.btn-equals.active-key {
+  background-color: var(--btn-eq-active);
+  box-shadow: none;
+}
+
+/* -------------------------------------------------------------
+   Responsive Breakpoints
+------------------------------------------------------------- */
+@media (max-width: 420px) {
+  body {
+    padding: 0.75rem;
+  }
+
+  .calculator {
+    padding: 1.25rem 1rem;
+    gap: 1rem;
+    border-radius: 24px;
+  }
+
+  .display-container {
+    padding: 1rem;
+    min-height: 95px;
+  }
+
+  .current-operand {
+    font-size: 2.15rem;
+  }
+
+  .current-operand.shrink {
+    font-size: 1.6rem;
+  }
+
+  .keypad-grid {
+    gap: 9px;
+  }
+
+  .btn {
+    height: 56px;
+    font-size: 1.15rem;
+    border-radius: 14px;
+  }
+
+  .btn-operator, .btn-equals {
+    font-size: 1.35rem;
+  }
+}
+
