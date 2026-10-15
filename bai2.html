@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bài 2 - Kiểm tra chẵn lẻ</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100vh; display: grid; place-items: center; padding: 24px; background: #f1f5f9; color: #172033; font: 16px/1.5 system-ui, sans-serif; }
+    main { width: min(100%, 440px); padding: 32px; background: white; border-radius: 16px; box-shadow: 0 12px 36px #17203314; }
+    h1 { margin: 0 0 8px; font-size: 1.6rem; }
+    p { margin: 0 0 24px; color: #526078; }
+    label { display: block; margin-bottom: 8px; font-weight: 600; }
+    input { width: 100%; padding: 12px; border: 1px solid #cbd5e1; border-radius: 8px; font: inherit; }
+    button { width: 100%; margin-top: 16px; padding: 12px; border: 0; border-radius: 8px; background: #2563eb; color: white; font: inherit; font-weight: 700; cursor: pointer; }
+    button:hover { background: #1d4ed8; }
+    output { display: block; margin-top: 20px; font-weight: 600; }
+    .error { color: #b91c1c; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Bài 2: Kiểm tra số chẵn/lẻ</h1>
+    <p>Nhập một số nguyên để kiểm tra.</p>
+    <form id="parity-form">
+      <label for="number">Số cần kiểm tra</label>
+      <input id="number" name="number" type="number" step="1" required placeholder="Ví dụ: 8">
+      <button type="submit">Kiểm tra</button>
+    </form>
+    <output id="result" aria-live="polite"></output>
+  </main>
+  <script>
+    const parityForm = document.querySelector("#parity-form");
+    const parityResult = document.querySelector("#result");
+    parityForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const value = Number(document.querySelector("#number").value);
+      if (!Number.isSafeInteger(value)) {
+        parityResult.textContent = "Vui lòng nhập một số nguyên hợp lệ.";
+        parityResult.className = "error";
+        return;
+      }
+      parityResult.textContent = `${value} là số ${value % 2 === 0 ? "chẵn" : "lẻ"}.`;
+      parityResult.className = "";
+    });
+  </script>
+</body>
+</html>

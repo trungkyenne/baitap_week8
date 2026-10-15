@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bài 5 - Máy tính giảm giá</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100vh; display: grid; place-items: center; padding: 24px; background: #f1f5f9; color: #172033; font: 16px/1.5 system-ui, sans-serif; }
+    main { width: min(100%, 440px); padding: 32px; background: white; border-radius: 16px; box-shadow: 0 12px 36px #17203314; }
+    h1 { margin: 0 0 8px; font-size: 1.6rem; }
+    p { margin: 0 0 24px; color: #526078; }
+    label { display: block; margin-bottom: 8px; font-weight: 600; }
+    input { width: 100%; padding: 12px; border: 1px solid #cbd5e1; border-radius: 8px; font: inherit; }
+    button { width: 100%; margin-top: 16px; padding: 12px; border: 0; border-radius: 8px; background: #2563eb; color: white; font: inherit; font-weight: 700; cursor: pointer; }
+    button:hover { background: #1d4ed8; }
+    output { display: block; margin-top: 20px; font-weight: 600; }
+    .error { color: #b91c1c; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Bài 5: Máy tính giảm giá</h1>
+    <p>Hóa đơn trên 500.000đ được giảm 10%.</p>
+    <form id="discount-form">
+      <label for="amount">Số tiền hóa đơn (đồng)</label>
+      <input id="amount" name="amount" type="number" min="0" step="any" required placeholder="Ví dụ: 600000">
+      <button type="submit">Tính tiền phải trả</button>
+    </form>
+    <output id="result" aria-live="polite"></output>
+  </main>
+  <script>
+    const discountForm = document.querySelector("#discount-form");
+    const discountResult = document.querySelector("#result");
+    discountForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const amount = Number(document.querySelector("#amount").value);
+      if (!Number.isFinite(amount) || amount < 0) {
+        discountResult.textContent = "Vui lòng nhập số tiền hóa đơn hợp lệ.";
+        discountResult.className = "error";
+        return;
+      }
+      const discount = amount > 500000 ? amount * 0.1 : 0;
+      const total = amount - discount;
+      const formatCurrency = (value) => `${new Intl.NumberFormat("vi-VN").format(value)}đ`;
+      discountResult.textContent = `Giảm giá: ${formatCurrency(discount)}. Số tiền phải trả: ${formatCurrency(total)}.`;
+      discountResult.className = "";
+    });
+  </script>
+</body>
+</html>

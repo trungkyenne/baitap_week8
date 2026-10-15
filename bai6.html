@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bài 6 - Phân loại tam giác</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100vh; display: grid; place-items: center; padding: 24px; background: #f1f5f9; color: #172033; font: 16px/1.5 system-ui, sans-serif; }
+    main { width: min(100%, 440px); padding: 32px; background: white; border-radius: 16px; box-shadow: 0 12px 36px #17203314; }
+    h1 { margin: 0 0 8px; font-size: 1.6rem; }
+    p { margin: 0 0 24px; color: #526078; }
+    label { display: block; margin: 16px 0 8px; font-weight: 600; }
+    input { width: 100%; padding: 12px; border: 1px solid #cbd5e1; border-radius: 8px; font: inherit; }
+    button { width: 100%; margin-top: 20px; padding: 12px; border: 0; border-radius: 8px; background: #2563eb; color: white; font: inherit; font-weight: 700; cursor: pointer; }
+    button:hover { background: #1d4ed8; }
+    output { display: block; margin-top: 20px; font-weight: 600; }
+    .error { color: #b91c1c; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Bài 6: Phân loại tam giác</h1>
+    <p>Nhập độ dài ba cạnh để kiểm tra tam giác đều.</p>
+    <form id="triangle-form">
+      <label for="side-a">Cạnh thứ nhất</label>
+      <input id="side-a" name="sideA" type="number" min="0" step="any" required>
+      <label for="side-b">Cạnh thứ hai</label>
+      <input id="side-b" name="sideB" type="number" min="0" step="any" required>
+      <label for="side-c">Cạnh thứ ba</label>
+      <input id="side-c" name="sideC" type="number" min="0" step="any" required>
+      <button type="submit">Kiểm tra tam giác</button>
+    </form>
+    <output id="result" aria-live="polite"></output>
+  </main>
+  <script>
+    const triangleForm = document.querySelector("#triangle-form");
+    const triangleResult = document.querySelector("#result");
+    triangleForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const a = Number(document.querySelector("#side-a").value);
+      const b = Number(document.querySelector("#side-b").value);
+      const c = Number(document.querySelector("#side-c").value);
+      if (![a, b, c].every((side) => Number.isFinite(side) && side > 0)) {
+        triangleResult.textContent = "Các cạnh phải là số lớn hơn 0.";
+        triangleResult.className = "error";
+        return;
+      }
+      if (a + b <= c || a + c <= b || b + c <= a) {
+        triangleResult.textContent = "Ba cạnh đã nhập không tạo thành một tam giác.";
+        triangleResult.className = "error";
+        return;
+      }
+      triangleResult.textContent = a === b && b === c
+        ? "Đây là tam giác đều."
+        : "Đây không phải là tam giác đều.";
+      triangleResult.className = "";
+    });
+  </script>
+</body>
+</html>
